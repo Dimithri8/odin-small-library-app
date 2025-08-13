@@ -25,8 +25,9 @@ form.addEventListener("submit", (event) => {
   const title = formData.get("title");
   const author = formData.get("author");
   const numOfPages = parseInt(formData.get("numOfPages"));
+  const readStatus = formData.get("readStatus");
 
-  createBook(title, author, numOfPages);
+  createBook(title, author, numOfPages, readStatus);
   form.reset();
   displayBooks();
 
@@ -35,15 +36,16 @@ form.addEventListener("submit", (event) => {
 
 const allBooks = [];
 
-function Book(title, author, numOfPages) {
+function Book(title, author, numOfPages, readStatus) {
   this.id = crypto.randomUUID();
   this.title = title;
   this.author = author;
   this.numOfPages = numOfPages;
+  this.readStatus = readStatus;
 }
 
-function createBook(title, author, numOfPages) {
-  return allBooks.push(new Book(title, author, numOfPages));
+function createBook(title, author, numOfPages, readStatus) {
+  return allBooks.push(new Book(title, author, numOfPages, readStatus));
 }
 
 function displayBooks() {
@@ -61,15 +63,19 @@ function displayBooks() {
     const pagesCell = document.createElement("td");
     pagesCell.textContent = `${book.numOfPages}`;
 
+    const readStatusCell = document.createElement("td");
+    readStatusCell.textContent = `${book.readStatus}`;
+
     table.appendChild(tableRow);
     tableRow.appendChild(titleCell);
     tableRow.appendChild(authorCell);
     tableRow.appendChild(pagesCell);
+    tableRow.appendChild(readStatusCell);
   });
 }
 
-let bookOne = createBook("Harry Books", "Rowlings", 500);
-let bookTwo = createBook("Ron Books", "Jake", 250);
-let bookThree = createBook("Hermoine Books", "Robert", 754);
+let bookOne = createBook("Harry Books", "Rowlings", 500, "Reading");
+let bookTwo = createBook("Ron Books", "Jake", 250, "Not Read Yet");
+let bookThree = createBook("Hermoine Books", "Robert", 754, "Finished Reading");
 
 displayBooks();
