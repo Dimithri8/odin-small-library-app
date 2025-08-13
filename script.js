@@ -1,6 +1,9 @@
+const uuidBrowser = crypto.randomUUID();
+
 const allBooks = [];
 
 function Book(title, author, numOfPages, read) {
+  this.id = crypto.randomUUID();
   this.title = title;
   this.author = author;
   this.numOfPages = numOfPages;
