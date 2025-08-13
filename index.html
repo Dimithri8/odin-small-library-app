@@ -8,14 +8,41 @@
   </head>
   <body>
     <div id="container">
-      <table>
-        <tr>
-          <th>Title</th>
-          <th>Author</th>
-          <th>Number of Pages</th>
-        </tr>
-      </table>
+      <div>
+        <table>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Number of Pages</th>
+          </tr>
+        </table>
+        <button class="open-popup">Add New Book</button>
+      </div>
     </div>
+    <dialog id="add-books-dialog">
+      <form action="#">
+        <input
+          type="text"
+          name="title"
+          id="book-title"
+          placeholder="Book Title"
+        />
+        <input
+          type="text"
+          name="author"
+          id="book-author"
+          placeholder="Book Author"
+        />
+        <input
+          type="number"
+          name="numOfPages"
+          id="book-page-numbers"
+          placeholder="No of Pages in Book"
+        />
+        <button class="form-add-btn">Add Book</button>
+        <button type="button" class="close-form-btn">Cancel</button>
+      </form>
+    </dialog>
     <script src="script.js"></script>
   </body>
 </html>
