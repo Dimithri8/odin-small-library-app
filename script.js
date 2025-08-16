@@ -30,7 +30,6 @@ form.addEventListener("submit", (event) => {
   createBook(title, author, numOfPages, readStatus);
   form.reset();
   displayBooks();
-
   booksDialog.close();
 });
 
@@ -44,6 +43,10 @@ function Book(title, author, numOfPages, readStatus) {
   this.readStatus = readStatus;
 }
 
+Book.prototype.toggleReadStatus = function () {
+  this.readStatus = this.readStatus === "Read" ? "Not Read" : "Read";
+};
+
 function createBook(title, author, numOfPages, readStatus) {
   return allBooks.push(new Book(title, author, numOfPages, readStatus));
 }
@@ -53,8 +56,8 @@ function displayBooks() {
 
   allBooks.forEach((book) => {
     const tableRow = document.createElement("tr");
-    const titleCell = document.createElement("td");
 
+    const titleCell = document.createElement("td");
     titleCell.textContent = `${book.title}`;
 
     const authorCell = document.createElement("td");
@@ -65,13 +68,45 @@ function displayBooks() {
 
     const readStatusCell = document.createElement("td");
     readStatusCell.textContent = `${book.readStatus}`;
+    const readBtn = document.createElement("button");
+    readBtn.textContent = "Read Status";
+    readBtn.setAttribute("data-id", book.id);
+
+    readBtn.addEventListener("click", (event) => {
+      const bookId = event.target.getAttribute("data-id");
+      const foundBook = allBooks.find((b) => b.id === bookId);
+
+      if (foundBook) foundBook.toggleReadStatus();
+      displayBooks();
+    });
+
+    const actionsCell = document.createElement("td");
+    const removeBtn = document.createElement("button");
+    removeBtn.textContent = "Remove";
+    removeBtn.setAttribute("data-id", book.id);
+
+    removeBtn.addEventListener("click", (event) => {
+      const bookId = event.target.getAttribute("data-id");
+      removeBook(bookId);
+    });
 
     table.appendChild(tableRow);
     tableRow.appendChild(titleCell);
     tableRow.appendChild(authorCell);
     tableRow.appendChild(pagesCell);
     tableRow.appendChild(readStatusCell);
+    actionsCell.appendChild(readBtn);
+    actionsCell.appendChild(removeBtn);
+    tableRow.appendChild(actionsCell);
   });
+}
+
+function removeBook(id) {
+  const index = allBooks.findIndex((book) => book.id === id);
+  if (index !== -1) {
+    allBooks.splice(index, 1);
+    displayBooks();
+  }
 }
 
 let bookOne = createBook("Harry Books", "Rowlings", 500, "Reading");
